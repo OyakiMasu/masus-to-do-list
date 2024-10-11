@@ -1,26 +1,26 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './App.css';
 import TodoList from './TodoList';
 
 function App() {
 
-   const [ todos, setTodos] = useState([ 
-    { id:1, text: 'Learning Reaact' },
-    { id:2, text: 'Build a To-Do List'},
-    { id:3, text: 'Understand props and state'}
-  ]);
-
+   const [ todos, setTodos] = useState([]);
   const [task, setTask] = useState('')
   const [editId, setEditId] = useState(null);
+
+
+  // Fetch tasks from an API or local JSON file
+  useEffect(() => {
+    fetch("https://jsonplaceholder.typicode.com/todos?_limit=5")
+    .then((response) => response.json())
+    .then((data) => {
+      setTodos(data);
+    })
+    .catch((error) => console.error('Error fetching tasks', error))
+
+  }, []);
   
 
-  // const addTask = () => {
-  //   if (task !== ''){
-  //     const newTask = { id: todos.length + 1, text: task };
-  //     setTodos([...todos, newTask]);
-  //     setTask('');
-  //   }
-  // }
 
   function addTask(){
     if(task !== ""){ // Check if the task is not an empty string
