@@ -22,13 +22,36 @@ function App() {
   
 
 
+  // function addTask(){
+  //   if(task !== ""){ // Check if the task is not an empty string
+  //     const newTask = { id: todos.length + 1, text: task }; // Create a new task object
+  //     setTodos([...todos, newTask]); // Update the todos state by adding the new task
+  //     setTask('');  // Clear the input field after adding the task
+  //   }
+  // }
+
   function addTask(){
-    if(task !== ""){ // Check if the task is not an empty string
-      const newTask = { id: todos.length + 1, text: task }; // Create a new task object
-      setTodos([...todos, newTask]); // Update the todos state by adding the new task
-      setTask('');  // Clear the input field after adding the task
+    if(task !== ""){
+      const newTask = { text: task }; 
+
+// Make a POST request to add a new task 
+      fetch('https://jsonplaceholder.typicode.com/todos', {
+        method: 'POST',
+        headers: {
+          'Content-Type' : 'application/json',
+
+        },
+        body: JSON.stringify(newTask),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          setTodos([...todos, data]); 
+          setTask(''); 
+        })
+        .catch((error) => console.error(' Error adding task', error));
     }
   }
+
 
     function deleteTask(id){
       const updatedTodos = todos.filter((todo) => todo.id !== id);
@@ -52,14 +75,14 @@ function App() {
     <div className="App">
       <h1> My to do list</h1>
 
-      <TodoList todos={todos} deleteTask={deleteTask} updateTask={updateTask} setEditId={setEditId}setTask={setTask} />
+      <TodoList todos={todos}  deleteTask={deleteTask} updateTask={updateTask} setEditId={setEditId}setTask={setTask} />
+
         <input
           type='text'
           value={task}
           onChange={(e) => setTask(e.target.value)}
         
       />
-      {/* <button onClick={deleteTask}> Delete Task</button> */}
       <button onClick={addTask}> Add Task</button>
       <button onClick={() => updateTask(editId, task)}> Update Task</button>
 
