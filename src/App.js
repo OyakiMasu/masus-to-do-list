@@ -54,6 +54,7 @@ function App() {
     }
   }
 
+  // Make an Update request to update the info in the task added 
 
     function deleteTask(id){
       const updatedTodos = todos.filter((todo) => todo.id !== id);
@@ -61,16 +62,46 @@ function App() {
     }
 
     function updateTask(id, newText){
-      const updatedTodos = todos.map((todo) => {
-        if(todo.id === id){
-          return { ...todo, title: newText };
-        }
-        return todo;
+        // Find the task to update
+        const taskToUpdate = todos.find((todo) => todo.id === id);
+
+        // Create the updated task object
+        const updatedTask = { ...taskToUpdate, title: newText };
+
+      // Make a PUT request to update the task in the server
+      fetch('`https://jsonplaceholder.typicode.com/todos/${id}`', {
+        method: 'PUT',
+          headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedTask),
+      })  
+
+        .then((response) => response.json())
+        .then((data) => {
+        // Update local state with the modified task        
+          const updatedTodos = todos.map((todo) =>
+            todo.id === id ? data : todo
+          );
+        setTodos(updatedTodos); // Update state
+        setEditId(null); // Exit edit mode
+        setTask(''); // Clear the input field
       })
-      setTodos(updatedTodos);
-      setEditId(null);
-      setTask('');
-    }
+      .catch((error) => console.error('Error updating task:', error));
+  }
+        
+    //       const updatedTodos = todos.map((todo) => {
+    //         if(todo.id === id){
+    //           return { ...todo, title: newText };
+    //         }
+    //         return todo;
+    //       })
+    //       setTodos(updatedTodos);
+    //       setEditId(null);
+    //       setTask('');
+    //     })
+     
+    // }
 
   
   return (
@@ -96,9 +127,11 @@ function App() {
       <button onClick={addTask}> Add Task</button>
       <button onClick={() => updateTask(editId, task)}> Update Task</button>
 
+      {loading && <p>Loading tasks...</p>}
 
 
     </div>
+    
   );
 }
 
