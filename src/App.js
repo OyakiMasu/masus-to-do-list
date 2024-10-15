@@ -4,9 +4,10 @@ import TodoList from './TodoList';
 
 function App() {
 
-   const [ todos, setTodos] = useState([]);
+  const [ todos, setTodos] = useState([]);
   const [task, setTask] = useState('')
   const [editId, setEditId] = useState(null);
+  const [loading, setLoading] = useState(true);
 
 
   // Fetch tasks from an API or local JSON file
@@ -15,6 +16,7 @@ function App() {
     .then((response) => response.json())
     .then((data) => {
       setTodos(data);
+      setLoading(false); // Set loading to false once data is fetched
     })
     .catch((error) => console.error('Error fetching tasks', error))
 
@@ -31,8 +33,8 @@ function App() {
   // }
 
   function addTask(){
-    if(task !== ""){
-      const newTask = { text: task }; 
+    if(task !== ""){  // Check if the task is not an empty string
+      const newTask = { title: task }; 
 
 // Make a POST request to add a new task 
       fetch('https://jsonplaceholder.typicode.com/todos', {
@@ -61,7 +63,7 @@ function App() {
     function updateTask(id, newText){
       const updatedTodos = todos.map((todo) => {
         if(todo.id === id){
-          return { ...todo, text: newText };
+          return { ...todo, title: newText };
         }
         return todo;
       })
@@ -75,7 +77,15 @@ function App() {
     <div className="App">
       <h1> My to do list</h1>
 
-      <TodoList todos={todos}  deleteTask={deleteTask} updateTask={updateTask} setEditId={setEditId}setTask={setTask} />
+      <TodoList 
+        todos={todos}  
+        deleteTask={deleteTask} 
+        updateTask={updateTask} 
+        setEditId={setEditId}
+        setTask={setTask} 
+        loading={loading} //Pass loading state
+        
+        />
 
         <input
           type='text'
