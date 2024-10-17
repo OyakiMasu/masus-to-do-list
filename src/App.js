@@ -57,8 +57,21 @@ function App() {
   // Make an Update request to update the info in the task added 
 
     function deleteTask(id){
-      const updatedTodos = todos.filter((todo) => todo.id !== id);
-      setTodos(updatedTodos);
+      fetch(`https://jsonplaceholder.typicode.com/todos/${id}`, {
+        method: 'DELETE',
+
+      }) 
+        .then((response) => {
+          if (response.ok) {
+            const updatedTodos = todos.filter((todo) => todo.id !== id);
+            setTodos(updatedTodos); // Update local state to remove the task
+            console.log(`Task with ID ${id} deleted sucessfully.`);
+          } else {
+            console.error(' Failed to delete task. ');
+          }
+        }) 
+          .catch((error) => console.error('Error deleting task:', error));
+    
     }
 
     function updateTask(id, newText){
@@ -112,6 +125,7 @@ function App() {
         todos={todos}  
         deleteTask={deleteTask} 
         updateTask={updateTask} 
+        editId = {editId}
         setEditId={setEditId}
         setTask={setTask} 
         loading={loading} //Pass loading state
@@ -125,7 +139,7 @@ function App() {
         
       />
       <button onClick={addTask}> Add Task</button>
-      <button onClick={() => updateTask(editId, task)}> Update Task</button> 
+      {/* <button onClick={() => updateTask(editId, task)}></button>  */}
 
       {loading && <p>Loading tasks...</p>}
 
