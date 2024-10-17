@@ -119,7 +119,7 @@ function App() {
   
   return (
     <div className="App">
-      <h1> My to do list</h1>
+      <h1> My To Do List</h1>
 
       <TodoList 
         todos={todos}  
@@ -129,7 +129,6 @@ function App() {
         setEditId={setEditId}
         setTask={setTask} 
         loading={loading} //Pass loading state
-        
         />
 
         <input
@@ -141,7 +140,7 @@ function App() {
       <button onClick={addTask}> Add Task</button>
       {/* <button onClick={() => updateTask(editId, task)}></button>  */}
 
-      {loading && <p>Loading tasks...</p>}
+      {/* {loading && <p>Loading tasks...</p>} */}
 
 
     </div>

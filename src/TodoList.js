@@ -5,7 +5,7 @@ function TodoList({ todos, deleteTask, updateTask, setEditId, setTask, loading }
   const [editText, setEditText] = useState(''); // Track the text for the current edit
 
   return (
-    <div>
+    <div className="list-body">
       {loading ? ( // Display loading message if tasks are being fetched
         <p>Loading tasks...</p>
       ) : (
@@ -19,7 +19,7 @@ function TodoList({ todos, deleteTask, updateTask, setEditId, setTask, loading }
                     value={editText}
                     onChange={(e) => setEditText(e.target.value)}
                   />
-                  <button
+                  <button className="button"
                     onClick={() => {
                       updateTask(todo.id, editText); // Call updateTask from App.js
                       setIsEditing(null); // Exit edit mode
@@ -31,7 +31,7 @@ function TodoList({ todos, deleteTask, updateTask, setEditId, setTask, loading }
               ) : (
                 <>
                   <span>{todo.title}</span>
-                  <button
+                  <button className="button"
                     onClick={() => {
                       setEditId(todo.id); // Set the task to edit mode in App.js
                       setTask(todo.title); // Fill the input field with current title
@@ -41,7 +41,7 @@ function TodoList({ todos, deleteTask, updateTask, setEditId, setTask, loading }
                   >
                     Edit
                   </button>
-                  <button onClick={() => deleteTask(todo.id)}>Delete</button>
+                  <button className="button" onClick={() => deleteTask(todo.id)}>Delete</button>
                 </>
               )}
             </li>
