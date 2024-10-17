@@ -31,7 +31,7 @@ li {
 }
 
 .button {
-  background-color: #ff4d4d;
+  background-color: #a94dff;
   color: white;
   border: none;
   padding: 8px;
@@ -40,7 +40,7 @@ li {
 }
 
 button:hover {
-  background-color: #ff1a1a;
+  background-color: #1addff;
 }
 
 
