@@ -69,7 +69,7 @@ function App() {
         const updatedTask = { ...taskToUpdate, title: newText };
 
       // Make a PUT request to update the task in the server
-      fetch('`https://jsonplaceholder.typicode.com/todos/${id}`', {
+      fetch(`https://jsonplaceholder.typicode.com/todos/${id}`, {
         method: 'PUT',
           headers: {
           "Content-Type": "application/json",
@@ -125,7 +125,7 @@ function App() {
         
       />
       <button onClick={addTask}> Add Task</button>
-      <button onClick={() => updateTask(editId, task)}> Update Task</button>
+      <button onClick={() => updateTask(editId, task)}> Update Task</button> 
 
       {loading && <p>Loading tasks...</p>}
 
